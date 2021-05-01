@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch } from 'react-router-dom';
+import ScaleLoader from 'react-spinners/ScaleLoader';
+import ProtectedRoute from '@component/ProtectedRoute';
+import LoginApp from '@component/LoginApp';
+import MainApp from '@component/MainApp';
+import { useAuth } from '@context/AuthContext';
 
-function App() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
+// export default App;
+const App = () => {
+    const { isLoading } = useAuth();
+    return isLoading ? (
+        <div className="h-screen w-screen flex items-center justify-center">
+            <ScaleLoader color="#36d7b7" height="150" width="10" radius="10" margin="10" />
         </div>
+    ) : (
+        <Switch>
+            <Route path="/login" exact component={LoginApp} />
+            <ProtectedRoute path="/" exact component={MainApp} />
+        </Switch>
     );
-}
+};
 
 export default App;

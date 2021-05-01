@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { auth, db } from '../util/firebase';
-import wrapper from '../util/common';
+import { auth, db } from '@util/firebase';
+import wrapper from '@util/common';
 
 const AuthContext = createContext({
     user: null,
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(async (newUser) => {
+        const unsubscribe = auth.onIdTokenChanged(async (newUser) => {
             if (newUser) {
                 const firestoreUser = await db.collection('Users').doc(newUser.uid).get();
                 if (!firestoreUser.exists) {

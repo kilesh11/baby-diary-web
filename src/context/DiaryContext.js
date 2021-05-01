@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { db } from '../util/firebase';
+import { db } from '@util/firebase';
 import { useAuth } from './AuthContext';
 import { useBaby } from './BabyContext';
 
