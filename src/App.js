@@ -10,7 +10,7 @@ const App = () => {
     const { isLoading } = useAuth();
     return isLoading ? (
         <div className="h-screen w-screen flex items-center justify-center">
-            <ScaleLoader color="#36d7b7" height="150" width="10" radius="10" margin="10" />
+            <ScaleLoader color="#788eec" height={150} width={10} radius={10} margin={10} />
         </div>
     ) : (
         <Switch>
