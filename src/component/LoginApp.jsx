@@ -1,6 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { CircularProgress } from '@material-ui/core';
+import { useAuth } from '@context/AuthContext';
 
 const LoginApp = () => {
+    const { logIn } = useAuth();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const onSubmit = async () => {
+        setIsLoading(true);
+        try {
+            if (email && password) {
+                await logIn({ email, password });
+            } else {
+                setIsLoading(false);
+            }
+        } catch (err) {
+            setIsLoading(false);
+            setEmail('');
+            setPassword('');
+        }
+    };
     return (
         <div className="h-screen flex items-center justify-center">
             <div className="w-3/4 lg:w-1/2 xl:max-w-screen-sm">
@@ -22,6 +42,8 @@ const LoginApp = () => {
                                     type="email"
                                     autoComplete="username"
                                     placeholder="Enter your email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <div className="mt-8">
@@ -33,16 +55,29 @@ const LoginApp = () => {
                                     type="password"
                                     autoComplete="new-password"
                                     placeholder="Enter your password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                             <div className="mt-10">
-                                <button
-                                    className="bg-primary text-gray-100 p-4 w-full rounded-full tracking-wide
+                                <div
+                                    className="text-center bg-primary text-gray-100 p-4 w-full rounded-full tracking-wide
                                                 font-semibold focus:outline-none focus:shadow-outline hover:bg-primary-dark
-                                                shadow-lg"
+                                                shadow-lg cursor-pointer flex items-center justify-center"
+                                    onClick={onSubmit}
                                 >
-                                    Log In
-                                </button>
+                                    {isLoading ? (
+                                        <CircularProgress
+                                            style={{
+                                                color: 'white',
+                                                width: '24px',
+                                                height: '24px',
+                                            }}
+                                        />
+                                    ) : (
+                                        'Log In'
+                                    )}
+                                </div>
                             </div>
                         </form>
                         <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center flex justify-center">

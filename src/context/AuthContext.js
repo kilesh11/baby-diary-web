@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import { auth, db } from '@util/firebase';
 import wrapper from '@util/common';
 
@@ -18,6 +19,8 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [firebaseUser, setFirebaseUser] = useState(null);
     const [user, setUser] = useState(null);
+
+    let history = useHistory();
 
     useEffect(() => {
         const unsubscribe = auth.onIdTokenChanged(async (newUser) => {
@@ -43,12 +46,13 @@ export const AuthProvider = ({ children }) => {
             if (firebaseUser) {
                 const firestoreUser = await db.collection('Users').doc(firebaseUser.uid).get();
                 setUser({ ...firestoreUser.data(), uid: firebaseUser.uid });
+                history.push('/');
                 setIsLoading(false);
             } else {
                 setUser(null);
             }
         })();
-    }, [firebaseUser]);
+    }, [firebaseUser, history]);
 
     // eslint-disable-next-line consistent-return
     const signUp = useCallback(async (email, password) => {
