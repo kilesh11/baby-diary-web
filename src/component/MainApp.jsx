@@ -8,6 +8,14 @@ const MainApp = () => {
     return (
         <div className="h-screen text-3xl flex flex-col items-center justify-center">
             MainApp
+            <div className="flex flex-col my-10">
+                {babies &&
+                    babies.map((baby) => (
+                        <p key={baby.id} className="text-xl">
+                            {baby.name}
+                        </p>
+                    ))}
+            </div>
             <div className="mt-10">
                 <div
                     className="text-center bg-primary text-gray-100 p-4 w-full rounded-full tracking-wide
