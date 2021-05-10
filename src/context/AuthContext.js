@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     const [firebaseUser, setFirebaseUser] = useState(null);
     const [user, setUser] = useState(null);
 
-    let history = useHistory();
+    const history = useHistory();
 
     useEffect(() => {
         const unsubscribe = auth.onIdTokenChanged(async (newUser) => {

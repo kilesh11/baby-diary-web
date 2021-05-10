@@ -158,7 +158,7 @@ const LoginApp = () => {
                                     setMode(newMode);
                                     clearInput();
                                 }}
-                                className="cursor-pointer text-primary  hover:text-primary-dark pl-1"
+                                className="cursor-pointer text-primary hover:text-primary-dark pl-1"
                             >
                                 {mode === loginMode.logIn && 'Sign Up'}
                                 {mode === loginMode.signUp && 'Log in'}

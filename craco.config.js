@@ -12,6 +12,7 @@ module.exports = {
             '@component': path.resolve(__dirname, 'src/component'),
             '@context': path.resolve(__dirname, 'src/context'),
             '@util': path.resolve(__dirname, 'src/util'),
+            '@image': path.resolve(__dirname, 'src/image'),
         },
     },
 };

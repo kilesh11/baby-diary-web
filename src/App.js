@@ -1,8 +1,10 @@
 import { Route, Switch } from 'react-router-dom';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 import ProtectedRoute from '@component/ProtectedRoute';
+
 import LoginApp from '@component/LoginApp';
 import MainApp from '@component/MainApp';
+import BabyApp from '@component/BabyApp';
 import { useAuth } from '@context/AuthContext';
 
 // export default App;
@@ -15,7 +17,8 @@ const App = () => {
     ) : (
         <Switch>
             <Route path="/login" exact component={LoginApp} />
-            <ProtectedRoute path="/" exact component={MainApp} />
+            <ProtectedRoute path="/baby" exact component={BabyApp} />
+            <ProtectedRoute requireBaby path="/" exact component={MainApp} />
         </Switch>
     );
 };

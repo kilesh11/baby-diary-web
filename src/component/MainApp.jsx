@@ -1,20 +1,16 @@
-import React from 'react';
 import { auth } from '@util/firebase';
 import { useBaby } from '@context/BabyContext';
 
 const MainApp = () => {
-    const { babies } = useBaby();
+    const { babies, selectedBaby } = useBaby();
     console.log('kyle_debug ~ file: MainApp.jsx ~ line 7 ~ MainApp ~ babies', babies);
     return (
         <div className="h-screen text-3xl flex flex-col items-center justify-center">
             MainApp
             <div className="flex flex-col my-10">
-                {babies &&
-                    babies.map((baby) => (
-                        <p key={baby.id} className="text-xl">
-                            {baby.name}
-                        </p>
-                    ))}
+                <p className="text-xl">
+                    {`Hi ${babies?.find((baby) => baby.id === selectedBaby)?.name ?? ''}`}
+                </p>
             </div>
             <div className="mt-10">
                 <div
