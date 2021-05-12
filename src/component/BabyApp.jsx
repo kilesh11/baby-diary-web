@@ -16,6 +16,9 @@ const BabyApp = () => {
         setEditBaby,
         editBaby,
         updateBaby,
+        unregisterBaby,
+        removeBaby,
+        selectedBaby,
         addBaby,
     } = useBaby();
     const [updateMode, setUpdateMode] = useState(false);
@@ -26,6 +29,7 @@ const BabyApp = () => {
     const [birthDate, setBirthDate] = useState(new Date());
     const [newBabyName, setNewBabyName] = useState('');
     const [newBabyBirthDate, setNewBabyBirthDate] = useState(new Date());
+    const [parents, setParents] = useState([]);
     const history = useHistory();
 
     const handleDialogOpen = useCallback((isUpdate) => {
@@ -40,9 +44,12 @@ const BabyApp = () => {
     useEffect(() => {
         if (editBaby !== '' && babies) {
             const baby = babies?.find((baby) => baby.id === editBaby);
-            setName(baby.name);
-            setBirthDate(baby.birthDate.toDate());
-            setHaveImage(baby.image);
+            if (baby) {
+                setName(baby.name);
+                setBirthDate(baby.birthDate.toDate());
+                setParents(baby.parents);
+                setHaveImage(baby.image);
+            }
         }
     }, [editBaby, babies]);
 
@@ -63,6 +70,24 @@ const BabyApp = () => {
         }
         handleDialogClose();
     }, [addBaby, handleDialogClose, newBabyBirthDate, newBabyName]);
+
+    const onUnregisterBaby = useCallback(async () => {
+        try {
+            await unregisterBaby(editBaby);
+        } catch (err) {
+            console.log(err);
+        }
+        handleDialogClose();
+    }, [handleDialogClose, unregisterBaby, editBaby]);
+
+    const onDeleteBaby = useCallback(async () => {
+        try {
+            await removeBaby(editBaby);
+        } catch (err) {
+            console.log(err);
+        }
+        handleDialogClose();
+    }, [handleDialogClose, removeBaby, editBaby]);
 
     const dialog = dialogOpen && (
         <Dialog
@@ -109,6 +134,14 @@ const BabyApp = () => {
                 <Button onClick={handleDialogClose} color="primary">
                     Cancel
                 </Button>
+                {selectedBaby !== editBaby && isUpdate && (
+                    <Button
+                        onClick={parents.length > 1 ? onUnregisterBaby : onDeleteBaby}
+                        color="primary"
+                    >
+                        {parents.length > 1 ? 'UNREGISTER' : 'DELETE'}
+                    </Button>
+                )}
                 <Button onClick={isUpdate ? onUpdateBaby : onAddBaby} color="primary">
                     {isUpdate ? 'UPDATE' : 'CREATE'}
                 </Button>
